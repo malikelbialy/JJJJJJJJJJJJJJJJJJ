@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👨‍👦 لوحة الأهل</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(20px);
+            border-radius: 40px;
+            padding: 45px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+        .header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header p {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 14px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .stat-card {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .stat-card .number {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-card .label {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 14px 20px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        .search-box::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+        .search-box:focus {
+            border-color: #667eea;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .children-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .child-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .child-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(102, 126, 234, 0.2);
+        }
+        .child-item .info .name {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .child-item .info .detail {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 13px;
+        }
+        .child-item .actions {
+            display: flex;
+            gap: 8px;
+        }
+        .child-item .actions .btn {
+            padding: 8px 18px;
+            border: none;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .child-item .actions .btn-view {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+        .child-item .actions .btn-view:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+        }
+        .child-item .actions .btn-delete {
+            background: rgba(235, 51, 73, 0.6);
+        }
+        .child-item .actions .btn-delete:hover {
+            background: #eb3349;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+        }
+        .empty-state .icon {
+            font-size: 60px;
+            display: block;
+            margin-bottom: 15px;
+        }
+        .empty-state h3 {
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 400;
+        }
+        .empty-state p {
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 14px;
+        }
+
+        .actions-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .actions-row .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .actions-row .btn-success {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+        }
+        .actions-row .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(17, 153, 142, 0.3);
+        }
+        .actions-row .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+        .actions-row .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+        .actions-row .btn-danger {
+            background: linear-gradient(135deg, #eb3349, #f45c43);
+        }
+        .actions-row .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(235, 51, 73, 0.3);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.15);
+            font-size: 12px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 16px;
+            color: white;
+            font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s;
+            z-index: 999;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>👨‍👦 لوحة الأهل</h1>
+            <p>جميع الأطفال المسجلين في منصة التواصل</p>
+        </div>
+
+        <!-- إحصائيات -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="number" id="totalCount">0</div>
+                <div class="label">👶 إجمالي الأطفال</div>
+            </div>
+            <div class="stat-card">
+                <div class="number" id="todayCount">0</div>
+                <div class="label">📅 اليوم</div>
+            </div>
+        </div>
+
+        <!-- بحث -->
+        <input type="text" class="search-box" id="searchInput" placeholder="🔍 ابحث عن طفل...">
+
+        <!-- القائمة -->
+        <div class="children-list" id="childrenList"></div>
+
+        <!-- أزرار -->
+        <div class="actions-row">
+            <a href="index.html" class="btn btn-success">➕ تسجيل جديد</a>
+            <button onclick="refreshList()" class="btn btn-primary">🔄 تحديث</button>
+            <button onclick="clearAll()" class="btn btn-danger">🗑 حذف الكل</button>
+        </div>
+
+        <div class="footer">💾 جميع البيانات محفوظة محلياً في متصفحك</div>
+    </div>
+
+    <!-- توست -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let allChildren = [];
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        function loadChildren() {
+            allChildren = JSON.parse(localStorage.getItem('children') || '[]');
+            displayChildren(allChildren);
+            updateStats(allChildren);
+        }
+
+        function displayChildren(list) {
+            const container = document.getElementById('childrenList');
+            if (list.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <span class="icon">👶</span>
+                        <h3>لا يوجد أطفال مسجلون</h3>
+                        <p>قم بتسجيل طفل جديد من خلال صفحة التسجيل</p>
+                    </div>
+                `;
+                return;
+            }
+            container.innerHTML = list.map(child => `
+                <div class="child-item">
+                    <div class="info">
+                        <div class="name">${child.name}</div>
+                        <div class="detail">📅 ${child.birthdate} · 🕐 ${new Date(child.createdAt).toLocaleDateString('ar')}</div>
+                    </div>
+                    <div class="actions">
+                        <a href="index.html?id=${child.id}" class="btn btn-view">👀 مشاهدة</a>
+                        <button onclick="deleteChild(${child.id})" class="btn btn-delete">🗑</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateStats(list) {
+            document.getElementById('totalCount').textContent = list.length;
+            const today = new Date().toDateString();
+            const todayCount = list.filter(c => new Date(c.createdAt).toDateString() === today).length;
+            document.getElementById('todayCount').textContent = todayCount;
+        }
+
+        function deleteChild(id) {
+            if (!confirm('هل أنت متأكد من حذف هذا الطفل؟')) return;
+            let list = JSON.parse(localStorage.getItem('children') || '[]');
+            list = list.filter(c => c.id !== id);
+            localStorage.setItem('children', JSON.stringify(list));
+            loadChildren();
+            showToast('🗑 تم الحذف');
+        }
+
+        function clearAll() {
+            if (!confirm('⚠️ هل أنت متأكد من حذف جميع الأطفال؟')) return;
+            if (!confirm('تأكيد نهائي؟')) return;
+            localStorage.removeItem('children');
+            loadChildren();
+            showToast('🗑 تم حذف الكل');
+        }
+
+        function refreshList() {
+            loadChildren();
+            showToast('✅ تم التحديث');
+        }
+
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase().trim();
+            if (!term) { displayChildren(allChildren); return; }
+            const filtered = allChildren.filter(c => 
+                c.name.toLowerCase().includes(term) || 
+                c.birthdate.includes(term)
+            );
+            displayChildren(filtered);
+        });
+
+        loadChildren();
+        setInterval(loadChildren, 5000);
+    </script>
+</body>
+</html>
