@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>👨‍👦 لوحة الأهل</title>
+    <title>👨‍👦 لوحة العائلة</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
         }
 
         body {
-            background: linear-gradient(145deg, #0f0c29, #302b63, #24243e);
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             min-height: 100vh;
             padding: 30px;
             display: flex;
@@ -22,22 +22,22 @@
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(20px);
             border-radius: 40px;
-            padding: 45px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
         }
 
         .header {
             text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
         }
         .header h1 {
-            font-size: 36px;
+            font-size: 34px;
             font-weight: 700;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
@@ -45,8 +45,9 @@
             background-clip: text;
         }
         .header p {
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.3);
             font-size: 14px;
+            margin-top: 5px;
         }
 
         .stats {
@@ -57,13 +58,13 @@
         }
         .stat-card {
             background: rgba(255, 255, 255, 0.04);
-            padding: 20px;
-            border-radius: 20px;
+            padding: 18px;
+            border-radius: 18px;
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.06);
         }
         .stat-card .number {
-            font-size: 32px;
+            font-size: 30px;
             font-weight: 700;
             background: linear-gradient(135deg, #667eea, #764ba2);
             -webkit-background-clip: text;
@@ -71,7 +72,7 @@
             background-clip: text;
         }
         .stat-card .label {
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.3);
             font-size: 13px;
             margin-top: 5px;
         }
@@ -80,7 +81,7 @@
             width: 100%;
             padding: 14px 20px;
             background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 16px;
             color: white;
             font-size: 16px;
@@ -89,76 +90,146 @@
             transition: all 0.3s;
         }
         .search-box::placeholder {
-            color: rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.2);
         }
         .search-box:focus {
             border-color: #667eea;
             background: rgba(255, 255, 255, 0.08);
         }
 
-        .children-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+        .children-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
         }
-        .child-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 20px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+
+        .child-card {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
             transition: all 0.3s;
-            flex-wrap: wrap;
-            gap: 10px;
         }
-        .child-item:hover {
+        .child-card:hover {
             background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.15);
         }
-        .child-item .info .name {
+        .child-card .top {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 12px;
+        }
+        .child-card .top .avatar {
+            font-size: 36px;
+        }
+        .child-card .top .info .name {
             color: white;
             font-size: 18px;
             font-weight: 600;
         }
-        .child-item .info .detail {
+        .child-card .top .info .detail {
             color: rgba(255, 255, 255, 0.3);
             font-size: 13px;
         }
-        .child-item .actions {
+
+        .child-card .status-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+        .child-card .status-box.online {
+            background: rgba(0, 184, 148, 0.15);
+            color: #55efc4;
+        }
+        .child-card .status-box.offline {
+            background: rgba(99, 110, 114, 0.15);
+            color: #636e72;
+        }
+        .child-card .status-box .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .child-card .status-box .dot.online {
+            background: #00b894;
+            animation: blink 1.5s infinite;
+        }
+        .child-card .status-box .dot.offline {
+            background: #636e72;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .child-card .video-preview {
+            background: #0a0a1a;
+            border-radius: 12px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+            overflow: hidden;
+            position: relative;
+        }
+        .child-card .video-preview video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .child-card .video-preview .placeholder {
+            color: rgba(255, 255, 255, 0.15);
+            font-size: 40px;
+            text-align: center;
+        }
+        .child-card .video-preview .placeholder span {
+            display: block;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .child-card .actions {
             display: flex;
             gap: 8px;
+            margin-top: 12px;
         }
-        .child-item .actions .btn {
-            padding: 8px 18px;
+        .child-card .actions .btn {
+            flex: 1;
+            padding: 10px;
             border: none;
             border-radius: 12px;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
             color: white;
             text-decoration: none;
-            display: inline-block;
+            text-align: center;
         }
-        .child-item .actions .btn-view {
+        .child-card .actions .btn-view {
             background: linear-gradient(135deg, #667eea, #764ba2);
         }
-        .child-item .actions .btn-view:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+        .child-card .actions .btn-view:hover {
+            transform: scale(1.02);
         }
-        .child-item .actions .btn-delete {
-            background: rgba(235, 51, 73, 0.6);
+        .child-card .actions .btn-delete {
+            background: rgba(235, 51, 73, 0.3);
         }
-        .child-item .actions .btn-delete:hover {
-            background: #eb3349;
+        .child-card .actions .btn-delete:hover {
+            background: rgba(235, 51, 73, 0.5);
         }
 
         .empty-state {
             text-align: center;
-            padding: 50px 20px;
+            padding: 60px 20px;
         }
         .empty-state .icon {
             font-size: 60px;
@@ -166,11 +237,11 @@
             margin-bottom: 15px;
         }
         .empty-state h3 {
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.3);
             font-weight: 400;
         }
         .empty-state p {
-            color: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.15);
             font-size: 14px;
         }
 
@@ -193,56 +264,45 @@
             transition: all 0.3s;
             color: white;
             text-decoration: none;
-            display: inline-block;
         }
         .actions-row .btn-success {
             background: linear-gradient(135deg, #11998e, #38ef7d);
         }
-        .actions-row .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(17, 153, 142, 0.3);
-        }
         .actions-row .btn-primary {
             background: linear-gradient(135deg, #667eea, #764ba2);
-        }
-        .actions-row .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
         }
         .actions-row .btn-danger {
             background: linear-gradient(135deg, #eb3349, #f45c43);
         }
-        .actions-row .btn-danger:hover {
+        .actions-row .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(235, 51, 73, 0.3);
         }
 
         .footer {
             text-align: center;
             margin-top: 20px;
-            color: rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.1);
             font-size: 12px;
         }
 
         .toast {
             position: fixed;
             bottom: 30px;
-            right: 30px;
-            background: rgba(0, 0, 0, 0.8);
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(10px);
-            padding: 15px 30px;
+            padding: 12px 30px;
             border-radius: 16px;
             color: white;
             font-size: 14px;
             border: 1px solid rgba(255, 255, 255, 0.05);
             opacity: 0;
-            transform: translateY(20px);
             transition: all 0.4s;
             z-index: 999;
         }
         .toast.show {
             opacity: 1;
-            transform: translateY(0);
         }
     </style>
 </head>
@@ -250,8 +310,8 @@
 
     <div class="container">
         <div class="header">
-            <h1>👨‍👦 لوحة الأهل</h1>
-            <p>جميع الأطفال المسجلين في منصة التواصل</p>
+            <h1>👨‍👦 لوحة العائلة</h1>
+            <p>مشاهدة الأطفال المتصلين في غرفة التواصل</p>
         </div>
 
         <!-- إحصائيات -->
@@ -261,16 +321,16 @@
                 <div class="label">👶 إجمالي الأطفال</div>
             </div>
             <div class="stat-card">
-                <div class="number" id="todayCount">0</div>
-                <div class="label">📅 اليوم</div>
+                <div class="number" id="onlineCount">0</div>
+                <div class="label">🟢 متصل الآن</div>
             </div>
         </div>
 
         <!-- بحث -->
         <input type="text" class="search-box" id="searchInput" placeholder="🔍 ابحث عن طفل...">
 
-        <!-- القائمة -->
-        <div class="children-list" id="childrenList"></div>
+        <!-- قائمة الأطفال -->
+        <div class="children-grid" id="childrenGrid"></div>
 
         <!-- أزرار -->
         <div class="actions-row">
@@ -279,14 +339,14 @@
             <button onclick="clearAll()" class="btn btn-danger">🗑 حذف الكل</button>
         </div>
 
-        <div class="footer">💾 جميع البيانات محفوظة محلياً في متصفحك</div>
+        <div class="footer">💾 جميع البيانات محفوظة محلياً · التحديث التلقائي كل 5 ثواني</div>
     </div>
 
-    <!-- توست -->
     <div class="toast" id="toast"></div>
 
     <script>
         let allChildren = [];
+        let streams = {};
 
         function showToast(msg) {
             const t = document.getElementById('toast');
@@ -295,17 +355,25 @@
             setTimeout(() => t.classList.remove('show'), 3000);
         }
 
+        // ====== تحميل الأطفال ======
         function loadChildren() {
             allChildren = JSON.parse(localStorage.getItem('children') || '[]');
+            // ترتيب: المتصلين أولاً
+            allChildren.sort((a, b) => {
+                if (a.isOnline && !b.isOnline) return -1;
+                if (!a.isOnline && b.isOnline) return 1;
+                return 0;
+            });
             displayChildren(allChildren);
             updateStats(allChildren);
         }
 
+        // ====== عرض الأطفال ======
         function displayChildren(list) {
-            const container = document.getElementById('childrenList');
+            const grid = document.getElementById('childrenGrid');
             if (list.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
                         <span class="icon">👶</span>
                         <h3>لا يوجد أطفال مسجلون</h3>
                         <p>قم بتسجيل طفل جديد من خلال صفحة التسجيل</p>
@@ -313,29 +381,79 @@
                 `;
                 return;
             }
-            container.innerHTML = list.map(child => `
-                <div class="child-item">
-                    <div class="info">
-                        <div class="name">${child.name}</div>
-                        <div class="detail">📅 ${child.birthdate} · 🕐 ${new Date(child.createdAt).toLocaleDateString('ar')}</div>
+
+            grid.innerHTML = list.map(child => {
+                const isOnline = child.isOnline !== false;
+                const lastSeen = child.lastSeen ? new Date(child.lastSeen) : null;
+                const timeAgo = lastSeen ? getTimeAgo(lastSeen) : 'منذ زمن';
+
+                return `
+                    <div class="child-card" data-id="${child.id}">
+                        <div class="top">
+                            <span class="avatar">👤</span>
+                            <div class="info">
+                                <div class="name">${child.name}</div>
+                                <div class="detail">📅 ${child.birthdate}</div>
+                            </div>
+                        </div>
+
+                        <div class="status-box ${isOnline ? 'online' : 'offline'}">
+                            <span class="dot ${isOnline ? 'online' : 'offline'}"></span>
+                            ${isOnline ? '🟢 متصل الآن' : '🔴 غير متصل · ' + timeAgo}
+                        </div>
+
+                        <div class="video-preview" id="preview_${child.id}">
+                            ${isOnline ? `
+                                <video id="cam_${child.id}" autoplay muted></video>
+                            ` : `
+                                <div class="placeholder">
+                                    📷
+                                    <span>الجهاز غير متصل</span>
+                                </div>
+                            `}
+                        </div>
+
+                        <div class="actions">
+                            <a href="index.html?id=${child.id}" class="btn btn-view">👀 مشاهدة</a>
+                            <button onclick="deleteChild(${child.id})" class="btn btn-delete">🗑</button>
+                        </div>
                     </div>
-                    <div class="actions">
-                        <a href="index.html?id=${child.id}" class="btn btn-view">👀 مشاهدة</a>
-                        <button onclick="deleteChild(${child.id})" class="btn btn-delete">🗑</button>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
+
+            // ====== محاولة تشغيل فيديو لكل طفل متصل ======
+            list.forEach(child => {
+                if (child.isOnline !== false) {
+                    const video = document.getElementById(`cam_${child.id}`);
+                    if (video) {
+                        // نستخدم كاميرا وهمية للعرض
+                        // في الواقع، نحتاج إلى WebRTC لبث حقيقي
+                        // هذا مجرد عرض للواجهة
+                    }
+                }
+            });
         }
 
+        // ====== حساب الوقت المنقضي ======
+        function getTimeAgo(date) {
+            const now = new Date();
+            const diff = Math.floor((now - date) / 1000);
+            if (diff < 60) return 'منذ لحظات';
+            if (diff < 3600) return `منذ ${Math.floor(diff / 60)} دقيقة`;
+            if (diff < 86400) return `منذ ${Math.floor(diff / 3600)} ساعة`;
+            return `منذ ${Math.floor(diff / 86400)} يوم`;
+        }
+
+        // ====== تحديث الإحصائيات ======
         function updateStats(list) {
             document.getElementById('totalCount').textContent = list.length;
-            const today = new Date().toDateString();
-            const todayCount = list.filter(c => new Date(c.createdAt).toDateString() === today).length;
-            document.getElementById('todayCount').textContent = todayCount;
+            const online = list.filter(c => c.isOnline !== false).length;
+            document.getElementById('onlineCount').textContent = online;
         }
 
+        // ====== حذف طفل ======
         function deleteChild(id) {
-            if (!confirm('هل أنت متأكد من حذف هذا الطفل؟')) return;
+            if (!confirm('🗑 هل أنت متأكد من حذف هذا الطفل؟')) return;
             let list = JSON.parse(localStorage.getItem('children') || '[]');
             list = list.filter(c => c.id !== id);
             localStorage.setItem('children', JSON.stringify(list));
@@ -343,6 +461,7 @@
             showToast('🗑 تم الحذف');
         }
 
+        // ====== حذف الكل ======
         function clearAll() {
             if (!confirm('⚠️ هل أنت متأكد من حذف جميع الأطفال؟')) return;
             if (!confirm('تأكيد نهائي؟')) return;
@@ -351,21 +470,24 @@
             showToast('🗑 تم حذف الكل');
         }
 
+        // ====== تحديث ======
         function refreshList() {
             loadChildren();
             showToast('✅ تم التحديث');
         }
 
+        // ====== بحث ======
         document.getElementById('searchInput').addEventListener('input', function(e) {
             const term = e.target.value.toLowerCase().trim();
             if (!term) { displayChildren(allChildren); return; }
-            const filtered = allChildren.filter(c => 
-                c.name.toLowerCase().includes(term) || 
+            const filtered = allChildren.filter(c =>
+                c.name.toLowerCase().includes(term) ||
                 c.birthdate.includes(term)
             );
             displayChildren(filtered);
         });
 
+        // ====== تحديث تلقائي ======
         loadChildren();
         setInterval(loadChildren, 5000);
     </script>
